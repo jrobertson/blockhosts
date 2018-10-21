@@ -2,19 +2,17 @@
 
 # file: blockhosts.rb
 
-
 require 'rxfhelper'
+
 
 class Host
 
   @ip = '127.0.0.1'
 
   @file = case RUBY_PLATFORM
-  when /linux|darwin/
-    '/etc/hosts'
   when /cygwin|mswin|mingw|bccwin|wince|emx/
     'c:\windows\system32\drivers\etc\hosts'
-  else
+  else # /linux|darwin/
     '/etc/hosts'
   end
 
@@ -25,10 +23,10 @@ class Host
 
       hashtag = hostname.sub(/^#/,'')
       list, _ = RXFHelper.read(banlist)
-      list.lines.map {|hostx| "#{@ip} #{hostx.chomp} ##{hashtag}" }.join("\n")
+      list.lines.map {|hostx| "##{@ip} #{hostx.chomp} ##{hashtag}" }.join("\n")
 
     else
-      "#{@ip} #{hostname} ##{hashtag}"
+      "##{@ip} #{hostname} ##{hashtag}"
     end
 
     open(@file, 'a') { |f| f.puts s } unless File.read(@file).include? hostname
@@ -69,4 +67,12 @@ class Host
 
   end
 
+  def self.rm(hashtag)   
+
+    modify() do |line|
+      line.gsub(/^([^^]+##{hashtag.sub(/^#/,'')}[^$]+$)/,'')
+    end
+
+  end  
+  
 end
