@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'blockhosts'
-  s.version = '0.2.0'
+  s.version = '0.2.1'
   s.summary = 'Conveniently enables or disables the blocking of hostnames ' + 
       'in the /etc/hosts file e.g. 127.0.0.1 facebook.com'
   s.authors = ['James Robertson']

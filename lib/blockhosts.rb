@@ -69,9 +69,7 @@ class Host
 
   def self.rm(hashtag)   
 
-    modify() do |line|
-      line.gsub(/^([^^]+##{hashtag.sub(/^#/,'')}[^$]+$)/,'')
-    end
+    modify() {|line| line =~ /##{hashtag}/ ? '' : line }
 
   end  
   
